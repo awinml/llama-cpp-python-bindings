@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Llama-cpp-python</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<body class="dark">
+    <div class="chat-container dark">
+
+        <h1>Llama-cpp-python</h1>
+        
+        <h2 id="state">
+            Request Timer:
+            <div id="spinner" class="spinner"></div>
+            <span id="inference-time" class="hidden">-</span>
+        </h2>
+
+        <div id="chatbox" class="chatbox"></div>
+
+        <div class="input-group dark">
+            <span class="prompt">&gt;</span>
+            <input id="text" type="text" name="msg" class="form-control dark">
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                var isRequesting = false;
+
+                function addMessageToChatbox(message, isUser) {
+                    var messageClass = isUser ? "userText" : "botText";
+                    var messageContent = isUser ? "&gt; " + message : message;
+                    var messageHtml = '<div class="message"><p class="' + messageClass + '"><span>' + messageContent + '</span></p></div>';
+                    $("#chatbox").append(messageHtml);
+                    $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+                }
+
+                function startLoading() {
+                    // Start the spinning effect for the spinner and hide the timer
+                    $("#spinner").show();
+                    $("#inference-time").hide();
+                    console.log("Starting loading effect...");
+                }
+
+                function stopLoading() {
+                    // Stop the spinning effect for the spinner and show the timer
+                    $("#spinner").hide();
+                    $("#inference-time").show();
+                    console.log("Stopping loading effect...");
+                }
+
+                function sendUserMessage() {
+                    if (isRequesting) return;
+                    isRequesting = true;
+
+                    var rawText = $("#text").val();
+                    $("#text").val("");
+                    addMessageToChatbox(rawText, true);
+                    console.log("User message sent: " + rawText);
+
+                    startLoading();
+
+                    $.ajax({
+                        data: JSON.stringify({
+                            prompt: rawText,
+                            max_tokens: 1500
+                        }),
+                        type: "POST",
+                        contentType: "application/json",
+                        url: "/generate_text",
+                    }).done(function (data) {
+                        console.log("Received response: ", data);
+                        var botMessage = data.response_text || "Sorry, please try again..";
+                        addMessageToChatbox(botMessage, false);
+                        $("#inference-time").text(data.inference_time);
+                    }).fail(function (jqXHR, textStatus, errorThrown) {
+                        console.log("Request failed: ", textStatus, errorThrown);
+                    }).always(function () {
+                        isRequesting = false;
+                        stopLoading();
+                    });
+                }
+
+                $("#text").on("keydown", function (event) {
+                    if (event.keyCode === 13) { // Enter key
+                        event.preventDefault();
+                        sendUserMessage();
+                    }
+                });
+            });
+        </script>
+
+    </div>
+</body>
+
+</html>
