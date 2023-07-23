@@ -7,8 +7,8 @@ Tested on Windows 10 Python 3.11, run web app like this:
 `$ py app.py`
 
 ### Request example on localhost
-![Alt text](/images/request.jpg)
+![Alt text](/web_app/images/request.jpg)
 
 
 ### Response example on localhost
-![Alt text2](/images/response.jpg)
+![Alt text2](/web_app/images/response.jpg)
