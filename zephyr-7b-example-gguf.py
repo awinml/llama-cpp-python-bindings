@@ -13,13 +13,13 @@ def download_file(file_link, filename):
 
 
 # Dowloading GGML model from HuggingFace
-ggml_model_path = "https://huggingface.co/CRD716/ggml-vicuna-1.1-quantized/resolve/main/ggml-vicuna-7b-1.1-q4_1.bin"
-filename = "ggml-vicuna-7b-1.1-q4_1.bin"
+ggml_model_path = "https://huggingface.co/TheBloke/zephyr-7B-beta-GGUF/resolve/main/zephyr-7b-beta.Q4_0.gguf"
+filename = "zephyr-7b-beta.Q4_0.gguf"
 
 download_file(ggml_model_path, filename)
 
 
-llm = Llama(model_path="ggml-vicuna-7b-1.1-q4_1.bin", n_ctx=512, n_batch=126)
+llm = Llama(model_path="zephyr-7b-beta.Q4_0.gguf", n_ctx=512, n_batch=126)
 
 
 def generate_text(
@@ -42,7 +42,20 @@ def generate_text(
     return output_text
 
 
+def generate_prompt_from_template(input):
+    chat_prompt_template = f"""<|im_start|>system
+You are a helpful chatbot.<|im_end|>
+<|im_start|>user
+{input}<|im_end|>"""
+    return chat_prompt_template
+
+
+prompt = generate_prompt_from_template(
+    "Compose an engaging travel blog post about a recent trip to Hawaii, highlighting cultural experiences and must-see attractions."
+)
+
 generate_text(
-    "Compose an engaging travel blog post about a recent trip to Hawaii, highlighting cultural experiences and must-see attractions.",
+    prompt,
     max_tokens=356,
 )
+
