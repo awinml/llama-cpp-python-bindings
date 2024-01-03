@@ -1,5 +1,10 @@
 # Run LLMs on Your CPU with Llama.cpp: A Step-by-Step Guide
 
+[![Watch on GitHub](https://img.shields.io/github/watchers/awinml/llama-cpp-python-bindings.svg?style=social)](https://github.com/awinml/llama-cpp-python-bindings/watchers)
+[![Star on GitHub](https://img.shields.io/github/stars/awinml/llama-cpp-python-bindings.svg?style=social)](https://github.com/awinml/llama-cpp-python-bindings/stargazers)
+[![Tweet](https://img.shields.io/twitter/url/https/github.com/awinml/llama-cpp-python-bindings.svg?style=social)](https://twitter.com/intent/tweet?url=https%3A%2F%2Fawinml.github.io%2Fllm-ggml-python%2F&via=awinml&text=Run%20LLMs%20on%20Your%20CPU%20with%20Llama.cpp%3A%20A%20Step-by-Step%20Guide&hashtags=llamacpp%2C%20llms)
+
+
 This respository contains the code for the all the examples mentioned in the article, [How to Run LLMs on Your CPU with Llama.cpp: A Step-by-Step Guide](https://awinml.github.io/llm-ggml-python/
 ).
 
